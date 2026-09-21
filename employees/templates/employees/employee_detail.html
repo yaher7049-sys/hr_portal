@@ -1,0 +1,103 @@
+{% extends "employees/base.html" %}
+{% block title %}{{ employee.full_name }} — AAPL HR Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'hr-dashboard' %}">← Back to roster</a>
+<h1>{{ employee.full_name }}</h1>
+<p class="subtitle">
+  {{ employee.employee_id }} · {{ employee.designation|default:"—" }} · {{ employee.department|default:"—" }}
+  &nbsp;<span class="pill {% if employee.employment_type == 'Payroll' %}payroll{% else %}contract{% endif %}">{{ employee.employment_type }}</span>
+</p>
+
+<h2>Employment</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Date of joining</span><span class="v">{{ employee.date_of_joining|date:"d M Y"|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Tenure</span><span class="v">{{ employee.tenure_years|default:"—" }} yrs</span></div>
+    <div class="detail-row"><span class="k">Notice period</span><span class="v">{{ employee.notice_period_months|default:"—" }} month(s)</span></div>
+    <div class="detail-row"><span class="k">Years of experience</span><span class="v">{{ employee.experience_note|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Reporting manager</span><span class="v">{{ employee.reporting_manager_name|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Manager email</span><span class="v">{{ employee.reporting_manager_email|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Work location</span><span class="v">{{ employee.work_location|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Personal</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Date of birth</span><span class="v">{{ employee.date_of_birth|date:"d M Y"|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Gender</span><span class="v">{{ employee.gender|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Marital status</span><span class="v">{{ employee.marital_status|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Blood group</span><span class="v">{{ employee.blood_group|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Education</span><span class="v">{{ employee.education|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">College / university</span><span class="v">{{ employee.college_university_name|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Contact</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Contact number</span><span class="v">{{ employee.contact_number|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Personal email</span><span class="v">{{ employee.personal_email|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Office email</span><span class="v">{{ employee.office_email|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Current address</span><span class="v">{{ employee.current_address|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Permanent address</span><span class="v">{{ employee.permanent_address|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Emergency contact</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Name</span><span class="v">{{ employee.emergency_contact_name|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Relationship</span><span class="v">{{ employee.emergency_contact_relationship|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Number</span><span class="v">{{ employee.emergency_contact_number|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Statutory &amp; bank details</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Aadhaar No.</span><span class="v">{{ employee.aadhaar_no|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">PAN</span><span class="v">{{ employee.pan_card_no|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">UAN No.</span><span class="v">{{ employee.uan_no|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">PF Number</span><span class="v">{{ employee.pf_number|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">ESIC No.</span><span class="v">{{ employee.esic_no|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Bank name</span><span class="v">{{ employee.bank_name|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Account number</span><span class="v">{{ employee.bank_account_number|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">IFSC code</span><span class="v">{{ employee.ifsc_code|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Salary slips</h2>
+{% if salary_slips %}
+<table class="register">
+  <thead>
+    <tr><th>Month</th><th>Year</th><th>Basic</th><th>Net pay</th><th>Slip</th></tr>
+  </thead>
+  <tbody>
+    {% for slip in salary_slips %}
+    <tr>
+      <td>{{ slip.get_month_display }}</td>
+      <td>{{ slip.year }}</td>
+      <td>₹{{ slip.basic }}</td>
+      <td>₹{{ slip.net_pay }}</td>
+      <td>{% if slip.slip_pdf %}<a href="{{ slip.slip_pdf.url }}">Download</a>{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+  No salary slips recorded yet. Add them from the <a href="/admin/employees/salaryslip/add/">Django admin</a>.
+</div>
+{% endif %}
+{% endblock %}

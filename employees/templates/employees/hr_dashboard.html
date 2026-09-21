@@ -1,0 +1,56 @@
+{% extends "employees/base.html" %}
+{% block title %}HR Dashboard — AAPL HR Portal{% endblock %}
+{% block content %}
+<h1>Employee Roster</h1>
+<p class="subtitle">Click any employee to view their full profile.</p>
+
+<div class="stat-strip">
+  <div class="stat"><div class="figure">{{ total_count }}</div><div class="label">Total employees</div></div>
+  <div class="stat"><div class="figure">{{ departments|length }}</div><div class="label">Departments</div></div>
+  <div class="stat"><div class="figure">{{ page_obj.paginator.count|default:employees|length }}</div><div class="label">Matching current filters</div></div>
+</div>
+
+<form method="get" class="hr-controls">
+  <input type="text" name="q" placeholder="Search name, ID or designation…" value="{{ query }}">
+  <select name="department">
+    <option value="">All departments</option>
+    {% for d in departments %}
+      <option value="{{ d }}" {% if d == selected_department %}selected{% endif %}>{{ d }}</option>
+    {% endfor %}
+  </select>
+  <select name="type">
+    <option value="">All contract types</option>
+    <option value="Payroll" {% if selected_type == "Payroll" %}selected{% endif %}>Payroll</option>
+    <option value="Contract" {% if selected_type == "Contract" %}selected{% endif %}>Contract</option>
+  </select>
+  <button type="submit" class="btn">Apply</button>
+</form>
+
+<table class="register">
+  <thead>
+    <tr><th>ID</th><th>Name</th><th>Designation</th><th>Department</th><th>Type</th><th>Joined</th></tr>
+  </thead>
+  <tbody>
+    {% for emp in employees %}
+    <tr onclick="window.location='{% url 'employee-detail' emp.pk %}'" style="cursor:pointer;">
+      <td class="id">{{ emp.employee_id }}</td>
+      <td>{{ emp.full_name }}</td>
+      <td>{{ emp.designation|default:"—" }}</td>
+      <td>{{ emp.department|default:"—" }}</td>
+      <td><span class="pill {% if emp.employment_type == 'Payroll' %}payroll{% else %}contract{% endif %}">{{ emp.employment_type }}</span></td>
+      <td>{{ emp.date_of_joining|date:"d M Y"|default:"—" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">No employees match these filters.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if is_paginated %}
+<div class="pagination">
+  {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&department={{ selected_department }}&type={{ selected_type }}">← Previous</a>{% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&q={{ query }}&department={{ selected_department }}&type={{ selected_type }}">Next →</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

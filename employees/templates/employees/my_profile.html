@@ -1,0 +1,71 @@
+{% extends "employees/base.html" %}
+{% block title %}My Profile — AAPL HR Portal{% endblock %}
+{% block content %}
+<h1>{{ employee.full_name }}</h1>
+<p class="subtitle">
+  {{ employee.designation|default:"—" }} · {{ employee.department|default:"—" }}
+  &nbsp;<span class="pill {% if employee.employment_type == 'Payroll' %}payroll{% else %}contract{% endif %}">{{ employee.employment_type }}</span>
+</p>
+
+<h2>Employment</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Employee ID</span><span class="v">{{ employee.employee_id }}</span></div>
+    <div class="detail-row"><span class="k">Date of joining</span><span class="v">{{ employee.date_of_joining|date:"d M Y"|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Tenure</span><span class="v">{{ employee.tenure_years|default:"—" }} yrs</span></div>
+    <div class="detail-row"><span class="k">Years of experience</span><span class="v">{{ employee.experience_note|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Reporting manager</span><span class="v">{{ employee.reporting_manager_name|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Work location</span><span class="v">{{ employee.work_location|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Notice period</span><span class="v">{{ employee.notice_period_months|default:"—" }} month(s)</span></div>
+  </div>
+</div>
+
+<h2>Personal</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Date of birth</span><span class="v">{{ employee.date_of_birth|date:"d M Y"|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Gender</span><span class="v">{{ employee.gender|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Marital status</span><span class="v">{{ employee.marital_status|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Blood group</span><span class="v">{{ employee.blood_group|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Contact number</span><span class="v">{{ employee.contact_number|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Personal email</span><span class="v">{{ employee.personal_email|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Office email</span><span class="v">{{ employee.office_email|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Emergency contact</h2>
+<div class="detail-grid">
+  <div>
+    <div class="detail-row"><span class="k">Name</span><span class="v">{{ employee.emergency_contact_name|default:"—" }}</span></div>
+    <div class="detail-row"><span class="k">Relationship</span><span class="v">{{ employee.emergency_contact_relationship|default:"—" }}</span></div>
+  </div>
+  <div>
+    <div class="detail-row"><span class="k">Number</span><span class="v">{{ employee.emergency_contact_number|default:"—" }}</span></div>
+  </div>
+</div>
+
+<h2>Salary slips</h2>
+{% if salary_slips %}
+<table class="register">
+  <thead>
+    <tr><th>Month</th><th>Year</th><th>Net pay</th><th>Slip</th></tr>
+  </thead>
+  <tbody>
+    {% for slip in salary_slips %}
+    <tr>
+      <td>{{ slip.get_month_display }}</td>
+      <td>{{ slip.year }}</td>
+      <td>₹{{ slip.net_pay }}</td>
+      <td>{% if slip.slip_pdf %}<a href="{{ slip.slip_pdf.url }}">Download PDF</a>{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state">No salary slips have been added yet. Once HR uploads them, they'll appear here.</div>
+{% endif %}
+{% endblock %}

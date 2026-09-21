@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+/staticfiles/
+/media/
+venv/
+.venv/
+
+# Contains real employee PII — do not commit this to a public/shared repo.
+data/employees_full.json

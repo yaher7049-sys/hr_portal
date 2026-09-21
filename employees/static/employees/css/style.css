@@ -1,0 +1,129 @@
+:root {
+  --ink: #1B2A4A;
+  --ink-soft: #2E3E5C;
+  --paper: #F7F5F0;
+  --paper-raised: #FFFFFF;
+  --brass: #A9822E;
+  --brass-soft: #C9A857;
+  --line: #DAD5C8;
+  --slate: #5B6472;
+  --rust: #A0533A;
+  --focus: #2E5AAC;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+a { color: var(--focus); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--ink);
+  color: #fff;
+}
+.topbar .brand { color: #fff; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.02em; }
+.topbar nav { display: flex; align-items: center; gap: 1.25rem; }
+.topbar nav a { color: var(--brass-soft); }
+.topbar .who { color: #cfd6e4; font-size: 0.85rem; }
+.link-button {
+  background: none; border: none; color: var(--brass-soft); cursor: pointer;
+  font: inherit; padding: 0; text-decoration: underline;
+}
+.inline-form { display: inline; }
+
+main.sheet {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.messages { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.messages li {
+  background: var(--paper-raised); border: 1px solid var(--line);
+  border-left: 4px solid var(--brass); padding: 0.6rem 1rem; margin-bottom: 0.5rem;
+}
+
+h1 { font-size: 1.8rem; margin: 0 0 0.3rem; }
+h2 { font-size: 1.2rem; border-bottom: 1px solid var(--line); padding-bottom: 0.4rem; margin: 2rem 0 1rem; }
+.subtitle { color: var(--slate); margin: 0 0 2rem; }
+
+/* --- Login form --- */
+.auth-box {
+  max-width: 380px; margin: 3rem auto; background: var(--paper-raised);
+  border: 1px solid var(--line); padding: 2rem;
+}
+.auth-box h1 { text-align: center; }
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-size: 0.85rem; color: var(--slate); margin-bottom: 0.3rem; }
+.field input {
+  width: 100%; padding: 0.6rem 0.7rem; border: 1px solid var(--line);
+  background: #fff; font: inherit;
+}
+.btn {
+  display: inline-block; background: var(--ink); color: #fff; border: none;
+  padding: 0.65rem 1.3rem; font: inherit; cursor: pointer;
+}
+.btn:hover { background: var(--ink-soft); }
+.helptext { font-size: 0.8rem; color: var(--slate); margin-top: 0.4rem; }
+.errorlist { color: var(--rust); list-style: none; padding: 0; margin: 0 0 0.8rem; font-size: 0.85rem; }
+
+/* --- Profile / detail sections --- */
+.detail-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 2rem;
+}
+@media (max-width: 620px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-row {
+  padding: 0.55rem 0; border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; gap: 1rem;
+}
+.detail-row .k { color: var(--slate); font-size: 0.85rem; }
+.detail-row .v { font-weight: 500; text-align: right; }
+
+.pill {
+  display: inline-block; font-size: 0.72rem; padding: 0.15rem 0.5rem;
+  border: 1px solid var(--line); color: var(--ink-soft);
+}
+.pill.payroll { border-color: var(--brass); color: var(--brass); }
+.pill.contract { border-color: var(--slate); color: var(--slate); }
+
+/* --- HR dashboard controls & table --- */
+.hr-controls { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.hr-controls input, .hr-controls select {
+  padding: 0.5rem 0.7rem; border: 1px solid var(--line); font: inherit; background: #fff;
+}
+.hr-controls input[type="text"] { flex: 1; min-width: 200px; }
+
+table.register { width: 100%; border-collapse: collapse; background: var(--paper-raised); }
+table.register th {
+  text-align: left; font-size: 0.78rem; color: var(--slate); font-weight: 600;
+  padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--ink);
+}
+table.register td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); }
+table.register tr:hover td { background: rgba(169, 130, 46, 0.08); }
+table.register td.id { font-family: 'Courier New', monospace; color: var(--slate); }
+
+.pagination { margin-top: 1.2rem; display: flex; gap: 1rem; font-size: 0.9rem; }
+
+.back-link { display: inline-block; margin-bottom: 1rem; font-size: 0.9rem; }
+
+.stat-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line);
+  margin-bottom: 2rem; background: var(--paper-raised);
+}
+.stat-strip .stat { padding: 1rem 1.2rem; border-right: 1px solid var(--line); }
+.stat-strip .stat:last-child { border-right: none; }
+.stat .figure { font-size: 1.6rem; font-weight: 600; }
+.stat .label { font-size: 0.8rem; color: var(--slate); }
+
+.empty-state {
+  border: 1px dashed var(--line); padding: 1.5rem; text-align: center;
+  color: var(--slate); background: var(--paper-raised);
+}

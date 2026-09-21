@@ -1,0 +1,25 @@
+{% extends "employees/base.html" %}
+{% block title %}Log in — AAPL HR Portal{% endblock %}
+{% block content %}
+<div class="auth-box">
+  <h1>Employee Login</h1>
+  <p class="subtitle" style="text-align:center;">Sign in with your Employee ID and password.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% if form.errors %}
+      <ul class="errorlist"><li>Incorrect Employee ID or password.</li></ul>
+    {% endif %}
+    <div class="field">
+      <label for="id_username">Employee ID</label>
+      <input type="text" name="username" id="id_username" autofocus required>
+    </div>
+    <div class="field">
+      <label for="id_password">Password</label>
+      <input type="password" name="password" id="id_password" required>
+    </div>
+    <button type="submit" class="btn">Log in</button>
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+  <p class="helptext">First time logging in? Your Employee ID is also your default password — you'll be asked to set a new one straight away.</p>
+</div>
+{% endblock %}
