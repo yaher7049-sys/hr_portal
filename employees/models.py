@@ -49,7 +49,7 @@ class Employee(models.Model):
     )
 
     # --- Contact ---
-    contact_number = models.CharField(max_length=20, blank=True, null=True)
+    contact_number = models.CharField(max_length=30, blank=True, null=True)
     personal_email = models.EmailField(blank=True, null=True)
     office_email = models.EmailField(blank=True, null=True)
     current_address = models.TextField(blank=True, null=True)

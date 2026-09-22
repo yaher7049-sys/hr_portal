@@ -34,6 +34,8 @@ if RENDER_EXTERNAL_HOSTNAME:
 CSRF_TRUSTED_ORIGINS = [
     o.strip() for o in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()
 ]
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
 
 # ---------------------------------------------------------------------------
 # Apps
@@ -135,6 +137,7 @@ LOGOUT_REDIRECT_URL = "login"
 # Security (auto-tightens when DEBUG=False)
 # ---------------------------------------------------------------------------
 if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", "True") == "True"
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
